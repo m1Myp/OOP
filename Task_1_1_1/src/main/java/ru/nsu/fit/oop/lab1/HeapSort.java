@@ -24,55 +24,20 @@ public class HeapSort {
      * @param N   len of heap
      * @param id  index of element we should sift down
      */
-    public static void siftDown(int[] array, int i, int len) {
-        int l = i * 2 + 1;
-        int r = i * 2 + 2;
-        if (l >= len && r >= len) return;
-        if (l < len && r < len) {
-            int m;
-            if (array[l] < array[r]) {
-                m = l;
-            } else m = r;
-            if (array[m] < array[i]) {
-                swap(array, i, m);
-                siftDown(array, m, len);
-            }
-        } else if (l < len && array[l] < array[i]) {
-            swap(array, i, l);
-            siftDown(array, l, len);
+    private static void siftDown(int[] arr, int id, int N) {
+        int current = id;
+        int left = id * 2 + 1;
+        int right = id * 2 + 2;
+        if (left < N && arr[current] > arr[left])
+            current = left;
+        if (right < N && arr[current] > arr[right])
+            current = right;
+        if (current != id) {
+            swap(arr, current, id);
+            siftDown(arr, current, N);
         }
     }
 
-    public static void siftUp(int v, int[] array) {
-        int f = (v - 1) / 2;
-        if (v == 0) return;
-        if (array[v] < array[f]) {
-            swap(array, v, f);
-            siftUp(f, array);
-        }
-    }
-
-/*
-        int i = 0;
-        int j = 0;
-
-        while(i < text.length()){
-            if(searchParam.charAt(j) == text.charAt(i)){
-                ++j;
-                ++i;
-            }
-            if(j == searchParam.length()){
-                indexes.add(i-j);
-                j = prefixFunc[j-1 + searchParam.length()];
-            }
-            else if(i < text.length() && searchParam.charAt(j) != text.charAt(i)){
-                if(j != 0)
-                    j = prefixFunc[j-1 + searchParam.length()];
-                else
-                    ++i;
-            }
-        }
-        */
     /**
      * Find root of the tree (heap) preserving the heap invariant
      * Swap with elem in last pos
@@ -94,17 +59,9 @@ public class HeapSort {
      */
     public static void heapSort(int[] arr) {
         int len = arr.length;
-        int[] sortedArr = arr.clone();
-        for (int i = len-1; i >= 0; i--) {
+        for (int i = len-1; i >= 0; i--)
             siftDown(arr, i, len);
-            System.out.println(Arrays.toString(arr));
-        }
-        System.out.println("down");
-        for (int i = 0; i < len; i++) {
-            siftUp(i, sortedArr);
-            System.out.println(Arrays.toString(sortedArr));
-        }
-        System.out.println("up");
+
         while(len > 0) {
             takeRoot(arr, len);
             --len;
