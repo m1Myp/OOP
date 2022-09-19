@@ -2,6 +2,8 @@ package ru.nsu.fit.oop.lab1;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 import java.util.Arrays;
 import java.util.stream.Stream;
 import org.junit.Test;
