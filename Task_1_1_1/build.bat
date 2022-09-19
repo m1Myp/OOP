@@ -2,6 +2,6 @@ javadoc -d .\batch\doc\ -charset utf-8 -sourcepath .\src\main\java\ -subpackages
 
 javac -sourcepath .\src\main\java\ -d .\batch\bin\ .\src\main\java\ru\nsu\fit\oop\lab1\HeapSort.java
 
-mkdir .\batch\jar\
+mkdir .\batch\jar\ 
 
-jar cf .\batch\jar\HeapSort.jar -C .\batch\bin\ .
+jar cf .\batch\jar\HeapSort.jar -C .\batch\bin\ . 
