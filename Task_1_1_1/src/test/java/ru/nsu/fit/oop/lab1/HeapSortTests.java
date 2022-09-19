@@ -1,12 +1,14 @@
 package ru.nsu.fit.oop.lab1;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 import java.util.Arrays;
 import java.util.stream.Stream;
 import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 
 
 /**
@@ -42,10 +44,10 @@ public class HeapSortTests {
      */
     @Test
     public void testOneElements() {
-        int[] OneElement = {1};
-        int[] OneElementSorted = {1};
-        HeapSort.heapSort(OneElement);
-        assertArrayEquals(OneElement, OneElementSorted);
+        int[] oneElementArr = {1};
+        int[] oneElementArrSorted = {1};
+        HeapSort.heapSort(oneElementArr);
+        assertArrayEquals(oneElementArr, oneElementArrSorted);
     }
 
     private static Stream<int[]> allTests() {
