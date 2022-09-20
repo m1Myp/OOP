@@ -45,16 +45,15 @@ public class StackTests {
         Stack<String> temp = s.popStack(2);
         assertEquals(1, s.getAmount());
         assertEquals("I", s.pop());
-
     }
 
     @Test
     public void testPushStack() {
-        Stack<Integer> s = new Stack<>(3, Integer.class);
         Stack<Integer> temp = new Stack<>(2, Integer.class);
         temp.push(0);
         temp.push(1);
         temp.push(2);
+        Stack<Integer> s = new Stack<>(3, Integer.class);
         s.push(3);
         s.pushStack(temp);
         for (int i = 2; i >= 0; --i) {
@@ -78,8 +77,8 @@ public class StackTests {
     @Test
     public void testPopException() {
         assertThrows(EmptyStackException.class,
-                ()->{
-                    Stack <Integer> s = new Stack<>(3, Integer.class);
+                () -> {
+                    Stack<Integer> s = new Stack<>(3, Integer.class);
                     s.pop();
                 });
     }
