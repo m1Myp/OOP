@@ -6,7 +6,7 @@ import java.util.EmptyStackException;
 /**
  * Stack class.
  */
-public class Stack < T > {
+public class Stack<T> {
 
     private T[] arr;
     private int id;
@@ -16,8 +16,7 @@ public class Stack < T > {
      * Stack create.
      */
     @SuppressWarnings("unchecked")
-    public Stack(int maxSize, Class<T> type)
-    {
+    public Stack(int maxSize, Class<T> type) {
         stackClass = type;
         arr = (T[]) Array.newInstance(stackClass, maxSize);
         id = 0;
@@ -62,8 +61,7 @@ public class Stack < T > {
     public T pop() throws EmptyStackException {
         if (id == 0) {
             throw new EmptyStackException();
-        }
-        else {
+        } else {
             return arr[--id];
         }
     }
@@ -73,14 +71,13 @@ public class Stack < T > {
      *
      * @return the n last element from stack like type stack
      * @throws EmptyStackException if you'll try to pop from empty stack..
-     * ..or if count of pushing stack more than existing one
+     *                             ..or if count of pushing stack more than existing one
      */
     public Stack<T> popStack(int count) throws EmptyStackException {
         Stack<T> returnStack = new Stack<>(count, stackClass);
         if (id == 0 || id < count) {
             throw new EmptyStackException();
-        }
-        else {
+        } else {
 
             for (int i = 0; i < count; ++i) {
                 returnStack.push(arr[id - 1]);
