@@ -131,6 +131,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <hr>
 <pre>public class <span class="typeNameLabel">Stack&lt;T&gt;</span>
 extends java.lang.Object</pre>
+<div class="block">Stack class.</div>
 </li>
 </ul>
 </div>
@@ -153,7 +154,9 @@ extends java.lang.Object</pre>
 <tr class="altColor">
 <th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(int,java.lang.Class)">Stack</a></span>&#8203;(int&nbsp;maxSize,
      java.lang.Class&lt;<a href="Stack.html" title="type parameter in Stack">T</a>&gt;&nbsp;type)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Stack create.</div>
+</td>
 </tr>
 </table>
 </li>
@@ -177,7 +180,7 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getAmount()">getAmount</a></span>()</code></th>
 <td class="colLast">
-<div class="block">size getter</div>
+<div class="block">size getter.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
@@ -198,14 +201,14 @@ extends java.lang.Object</pre>
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#push(T)">push</a></span>&#8203;(<a href="Stack.html" title="type parameter in Stack">T</a>&nbsp;elem)</code></th>
 <td class="colLast">
-<div class="block">adding elem to the Stack and realloc array if needed</div>
+<div class="block">adding elem to the Stack and realloc array if needed.</div>
 </td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#pushStack(ru.nsu.fit.oop.lab2.Stack)">pushStack</a></span>&#8203;(<a href="Stack.html" title="class in ru.nsu.fit.oop.lab2">Stack</a>&lt;<a href="Stack.html" title="type parameter in Stack">T</a>&gt;&nbsp;pushingStack)</code></th>
 <td class="colLast">
-<div class="block">adding elem from the one Stack to another Stack and realloc array if needed</div>
+<div class="block">adding elem from the one Stack to another Stack and realloc array if needed.</div>
 </td>
 </tr>
 </table>
@@ -240,6 +243,7 @@ extends java.lang.Object</pre>
 <h4>Stack</h4>
 <pre>public&nbsp;Stack&#8203;(int&nbsp;maxSize,
              java.lang.Class&lt;<a href="Stack.html" title="type parameter in Stack">T</a>&gt;&nbsp;type)</pre>
+<div class="block">Stack create.</div>
 </li>
 </ul>
 </li>
@@ -259,7 +263,7 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>getAmount</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;getAmount()</pre>
-<div class="block">size getter</div>
+<div class="block">size getter.</div>
 <dl>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>Stack.AmountOfElems</dd>
@@ -275,10 +279,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>push</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;push&#8203;(<a href="Stack.html" title="type parameter in Stack">T</a>&nbsp;elem)</pre>
-<div class="block">adding elem to the Stack and realloc array if needed</div>
+<div class="block">adding elem to the Stack and realloc array if needed.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>elem</code> - </dd>
+<dd><code>elem</code> - element for pushing</dd>
 </dl>
 </li>
 </ul>
@@ -312,7 +316,8 @@ extends java.lang.Object</pre>
 <dt><span class="returnLabel">Returns:</span></dt>
 <dd>the n last element from stack like type stack</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
-<dd><code>java.util.EmptyStackException</code> - if you'll try to pop from empty stack or if count of pushing stack more than existing one</dd>
+<dd><code>java.util.EmptyStackException</code> - if you'll try to pop from empty stack..
+ ..or if count of pushing stack more than existing one</dd>
 </dl>
 </li>
 </ul>
@@ -323,10 +328,10 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>pushStack</h4>
 <pre class="methodSignature">public&nbsp;void&nbsp;pushStack&#8203;(<a href="Stack.html" title="class in ru.nsu.fit.oop.lab2">Stack</a>&lt;<a href="Stack.html" title="type parameter in Stack">T</a>&gt;&nbsp;pushingStack)</pre>
-<div class="block">adding elem from the one Stack to another Stack and realloc array if needed</div>
+<div class="block">adding elem from the one Stack to another Stack and realloc array if needed.</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
-<dd><code>pushingStack</code> - </dd>
+<dd><code>pushingStack</code> - stack that we will push</dd>
 </dl>
 </li>
 </ul>
