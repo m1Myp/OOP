@@ -64,6 +64,26 @@ public class StackTests {
     }
 
     @Test
+    public void testPushIntNull() {
+        assertThrows(EmptyStackException.class,
+                () -> {
+                    Stack<Integer> s = new Stack<>(3, Integer.class);
+                    s.push(null);
+                    s.pop();
+                });
+    }
+
+    @Test
+    public void testPushStringNull() {
+        assertThrows(EmptyStackException.class,
+                () -> {
+                    Stack<String> s = new Stack<>(3, String.class);
+                    s.push(null);
+                    s.pop();
+                });
+    }
+
+    @Test
     public void testOfRealloc() {
         Stack<Integer> s = new Stack<>(1, Integer.class);
         for (int i = 0; i < 100; i++) {
