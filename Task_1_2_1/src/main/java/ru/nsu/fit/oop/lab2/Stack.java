@@ -9,7 +9,7 @@ import java.util.EmptyStackException;
 public class Stack<T> {
 
     private T[] arr;
-    private int id;
+    private int index;
     private final Class<T> stackClass;
 
     /**
@@ -19,7 +19,7 @@ public class Stack<T> {
     public Stack(int maxSize, Class<T> type) {
         stackClass = type;
         arr = (T[]) Array.newInstance(stackClass, maxSize);
-        id = 0;
+        index = 0;
     }
 
     /**
@@ -28,14 +28,13 @@ public class Stack<T> {
      * @return Stack.AmountOfElems
      */
     public int getAmount() {
-
-        return id;
+        return index;
     }
 
     @SuppressWarnings("unchecked")
     private void realloc() {
         T[] newArray = (T[]) Array.newInstance(stackClass, arr.length * 2);
-        System.arraycopy(arr, 0, newArray, 0, id);
+        System.arraycopy(arr, 0, newArray, 0, index);
         arr = newArray;
     }
 
@@ -45,11 +44,12 @@ public class Stack<T> {
      * @param elem element for pushing
      */
     public void push(T elem) {
-        if (id == arr.length) {
-            realloc();
+        if(elem != null) {
+            if (index == arr.length) {
+                realloc();
+            }
+            arr[index++] = elem;
         }
-        arr[id++] = elem;
-
     }
 
     /**
@@ -59,10 +59,12 @@ public class Stack<T> {
      * @throws EmptyStackException if you'll try to pop from empty stack.
      */
     public T pop() throws EmptyStackException {
-        if (id == 0) {
+        if (index == 0) {
             throw new EmptyStackException();
         } else {
-            return arr[--id];
+            T temp = arr[--index];
+            arr[index] = null;
+            return temp;
         }
     }
 
@@ -74,18 +76,17 @@ public class Stack<T> {
      *                             ..or if count of pushing stack more than existing one
      */
     public Stack<T> popStack(int count) throws EmptyStackException {
-        Stack<T> returnStack = new Stack<>(count, stackClass);
-        if (id == 0 || id < count) {
+        if (index == 0 || index < count) {
             throw new EmptyStackException();
         } else {
-
+            Stack<T> returnStack = new Stack<>(count, stackClass);
             for (int i = 0; i < count; ++i) {
-                returnStack.push(arr[id - 1]);
-                arr[id - 1] = null;
-                --id;
+                returnStack.push(arr[index - 1]);
+                arr[index - 1] = null;
+                --index;
             }
+            return returnStack;
         }
-        return returnStack;
     }
 
     /**
@@ -94,13 +95,13 @@ public class Stack<T> {
      * @param pushingStack stack that we will push
      */
     public void pushStack(Stack<T> pushingStack) {
-        int numOfElemsInPushingStack = pushingStack.id;
+        int numOfElemsInPushingStack = pushingStack.index;
         for (int i = 0; i < numOfElemsInPushingStack; ++i) {
-            if (id == arr.length) {
+            if (index == arr.length) {
                 realloc();
             }
 
-            arr[id++] = pushingStack.arr[i];
+            arr[index++] = pushingStack.arr[i];
         }
     }
 }
