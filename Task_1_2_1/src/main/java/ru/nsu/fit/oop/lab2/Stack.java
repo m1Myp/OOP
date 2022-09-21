@@ -44,7 +44,7 @@ public class Stack<T> {
      * @param elem element for pushing
      */
     public void push(T elem) {
-        if(elem != null) {
+        if (elem != null) {
             if (index == arr.length) {
                 realloc();
             }
