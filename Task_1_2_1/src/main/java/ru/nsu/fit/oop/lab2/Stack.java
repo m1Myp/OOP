@@ -1,6 +1,5 @@
 package ru.nsu.fit.oop.lab2;
 
-import java.lang.reflect.Array;
 import java.util.EmptyStackException;
 
 /**
@@ -10,15 +9,13 @@ public class Stack<T> {
 
     private T[] arr;
     private int index;
-    private final Class<T> stackClass;
 
     /**
      * Stack create.
      */
     @SuppressWarnings("unchecked")
-    public Stack(int maxSize, Class<T> type) {
-        stackClass = type;
-        arr = (T[]) Array.newInstance(stackClass, maxSize);
+    public Stack(int maxSize) {
+        arr = (T[]) new Object[maxSize];
         index = 0;
     }
 
@@ -33,7 +30,7 @@ public class Stack<T> {
 
     @SuppressWarnings("unchecked")
     private void realloc() {
-        T[] newArray = (T[]) Array.newInstance(stackClass, arr.length * 2);
+        T[] newArray = (T[]) new Object[arr.length * 2];
         System.arraycopy(arr, 0, newArray, 0, index);
         arr = newArray;
     }
@@ -44,7 +41,7 @@ public class Stack<T> {
      * @param elem element for pushing
      */
     public void push(T elem) {
-        if (elem != null) {
+        if(elem != null) {
             if (index == arr.length) {
                 realloc();
             }
@@ -63,7 +60,9 @@ public class Stack<T> {
             throw new EmptyStackException();
         } else {
             T temp = arr[--index];
-            arr[index] = null;
+            T[] newSmallArray = (T[]) new Object[index];
+            System.arraycopy(arr, 0, newSmallArray, 0, index);
+            arr = newSmallArray;
             return temp;
         }
     }
@@ -79,7 +78,7 @@ public class Stack<T> {
         if (index == 0 || index < count) {
             throw new EmptyStackException();
         } else {
-            Stack<T> returnStack = new Stack<>(count, stackClass);
+            Stack<T> returnStack = new Stack<>(count);
             for (int i = 0; i < count; ++i) {
                 returnStack.push(arr[index - 1]);
                 arr[index - 1] = null;
