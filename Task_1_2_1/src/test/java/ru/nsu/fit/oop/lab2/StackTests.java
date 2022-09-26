@@ -13,7 +13,7 @@ public class StackTests {
 
     @Test
     public void testTypeInt() {
-        Stack<Integer> s = new Stack<>(5, Integer.class);
+        Stack<Integer> s = new Stack<>(5);
         for (int i = 0; i < 5; i++) {
             s.push(i);
         }
@@ -26,7 +26,7 @@ public class StackTests {
 
     @Test
     public void testTypeString() {
-        Stack<String> s = new Stack<>(3, String.class);
+        Stack<String> s = new Stack<>(3);
         s.push("I");
         s.push("Love");
         s.push("Programming");
@@ -38,7 +38,7 @@ public class StackTests {
 
     @Test
     public void testPopStack() {
-        Stack<String> s = new Stack<>(3, String.class);
+        Stack<String> s = new Stack<>(3);
         s.push("I");
         s.push("Love");
         s.push("Programming");
@@ -49,11 +49,11 @@ public class StackTests {
 
     @Test
     public void testPushStack() {
-        Stack<Integer> temp = new Stack<>(2, Integer.class);
+        Stack<Integer> temp = new Stack<>(2);
         temp.push(0);
         temp.push(1);
         temp.push(2);
-        Stack<Integer> s = new Stack<>(3, Integer.class);
+        Stack<Integer> s = new Stack<>(3);
         s.push(3);
         s.pushStack(temp);
         for (int i = 2; i >= 0; --i) {
@@ -67,7 +67,7 @@ public class StackTests {
     public void testPushIntNull() {
         assertThrows(EmptyStackException.class,
                 () -> {
-                    Stack<Integer> s = new Stack<>(3, Integer.class);
+                    Stack<Integer> s = new Stack<>(3);
                     s.push(null);
                     s.pop();
                 });
@@ -77,7 +77,7 @@ public class StackTests {
     public void testPushStringNull() {
         assertThrows(EmptyStackException.class,
                 () -> {
-                    Stack<String> s = new Stack<>(3, String.class);
+                    Stack<String> s = new Stack<>(3);
                     s.push(null);
                     s.pop();
                 });
@@ -85,7 +85,7 @@ public class StackTests {
 
     @Test
     public void testOfRealloc() {
-        Stack<Integer> s = new Stack<>(1, Integer.class);
+        Stack<Integer> s = new Stack<>(1);
         for (int i = 0; i < 100; i++) {
             s.push(i);
         }
@@ -98,7 +98,7 @@ public class StackTests {
     public void testPopException() {
         assertThrows(EmptyStackException.class,
                 () -> {
-                    Stack<Integer> s = new Stack<>(3, Integer.class);
+                    Stack<Integer> s = new Stack<>(3);
                     s.pop();
                 });
     }
@@ -107,7 +107,7 @@ public class StackTests {
     public void testPopStackException() {
         assertThrows(EmptyStackException.class,
                 () -> {
-                    Stack<String> s = new Stack<>(3, String.class);
+                    Stack<String> s = new Stack<>(3);
                     s.push("I");
                     s.push("Love");
                     s.push("Programming");
