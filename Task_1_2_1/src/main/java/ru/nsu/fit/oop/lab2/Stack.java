@@ -81,9 +81,11 @@ public class Stack<T> {
             Stack<T> returnStack = new Stack<>(count);
             for (int i = 0; i < count; ++i) {
                 returnStack.push(arr[index - 1]);
-                arr[index - 1] = null;
                 --index;
             }
+            T[] newSmallArray = (T[]) new Object[index];
+            System.arraycopy(arr, 0, newSmallArray, 0, index);
+            arr = newSmallArray;
             return returnStack;
         }
     }
