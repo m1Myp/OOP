@@ -5,10 +5,13 @@ import java.util.*;
 /**
  * Tree class.
  */
-public class Tree<T extends Comparable<T>> implements Collection<T> {
+public class Tree<T> implements Collection<T> {
     private int size = 0;
-    private Node root;
+    private T root;
+    private Map<T, T[]> treeMap;
+    private Tree<T>[] subtree;
     private int modificationCount;
+    public String searchType;
 
     /**
      * @return tree size.
@@ -51,7 +54,7 @@ public class Tree<T extends Comparable<T>> implements Collection<T> {
      */
     @Override
     public Iterator<T> iterator() {
-        return new TreeIterator();
+        return new TreeIterator(searchType);
     }
 
     /**
@@ -61,32 +64,18 @@ public class Tree<T extends Comparable<T>> implements Collection<T> {
      * @return true if this collections changed as a result of the call.
      * @throws NullPointerException if you try add NULL object
      */
-    @Override
+    @SuppressWarnings("unchecked")
     public boolean add(T member) {
         if (member == null) {
             throw new NullPointerException();
         }
-        Node parent = null;
-        Node current = root;
-        while (current != null) {
-            parent = current;
-            if (member.compareTo(current.member) < 0) {
-                current = current.left;
-            } else {
-                current = current.right;
-            }
-        }
 
-        Node newNode = new Node(member);
-        if (parent == null) {
-            root = newNode;
-        } else if (member.compareTo(parent.member) < 0) {
-            newNode.parent = parent;
-            parent.left = newNode;
-        } else {
-            newNode.parent = parent;
-            parent.right = newNode;
-        }
+        T[] treeArr = treeMap.get(root);
+        T[] newTreeArr = (T[]) new Object[treeArr.length + 1];
+        System.arraycopy(treeArr, 0, newTreeArr, 0, treeArr.length);
+        newTreeArr[treeArr.length] = member;
+
+        treeMap.put(root, newTreeArr);
 
         ++size;
         ++modificationCount;
@@ -110,26 +99,18 @@ public class Tree<T extends Comparable<T>> implements Collection<T> {
 
         T value = (T) member;
 
-        Node node = findNode(value);
+        T node = findNode(value);
         if (node == null) {
             return false;
         }
 
-        if (node.left == null) {
-            shiftSubtree(node, node.right);
-        } else if (node.right == null) {
-            shiftSubtree(node, node.left);
-        } else {
-            Node nodeChild = child(node);
-            if (nodeChild.parent != node) {
-                shiftSubtree(nodeChild, nodeChild.right);
-                nodeChild.right = node.right;
-                nodeChild.right.parent = nodeChild;
-            }
-            shiftSubtree(node, nodeChild);
-            nodeChild.left = node.left;
-            nodeChild.left.parent = nodeChild;
+        if(treeMap.get(value) == null){
+            T parentNode = findParent(value);
+            shiftSubtree(node, parentNode);
         }
+
+        treeMap.remove(member);
+
         --size;
         ++modificationCount;
         return true;
@@ -195,6 +176,7 @@ public class Tree<T extends Comparable<T>> implements Collection<T> {
     public void clear() {
         root = null;
         size = 0;
+        treeMap.clear();
         modificationCount++;
     }
 
@@ -204,13 +186,50 @@ public class Tree<T extends Comparable<T>> implements Collection<T> {
      * @param value member we want find a node
      * @return node
      */
-    private Node findNode(T value) {
-        Node current = root;
-        while (current != null && !value.equals(current.member)) {
-            if (value.compareTo(current.member) < 0) {
-                current = current.left;
-            } else {
-                current = current.right;
+    private T findParent(T value) {
+        T current = root;
+        boolean flag = false;
+        while(treeMap.get(current) != null) {
+            T[] subtrees = treeMap.get(current);
+            for (int i = 0; i < subtrees.length; ++i){
+                if(subtrees[i] == value) {
+                    flag = true;
+                    break;
+                }
+                else {
+                    current = findNode(subtrees[i]);
+                }
+            }
+            if(flag) {
+                break;
+            }
+        }
+        return current;
+    }
+
+    /**
+     * Finding of node with 'value' element on it
+     *
+     * @param value member we want find a node
+     * @return node
+     */
+    private T findNode(T value) {
+        T current = root;
+        boolean flag = false;
+        while(treeMap.get(current) != null) {
+            T[] subtrees = treeMap.get(current);
+            for (int i = 0; i < subtrees.length; ++i){
+                if(subtrees[i] == value) {
+                    current = subtrees[i];
+                    flag = true;
+                    break;
+                }
+                else {
+                    current = findNode(subtrees[i]);
+                }
+            }
+            if(flag) {
+                break;
             }
         }
         return current;
@@ -221,40 +240,28 @@ public class Tree<T extends Comparable<T>> implements Collection<T> {
      *
      * @param first node we need to remove
      * @param second node we need shift to new position
+     *
+     * @throws ClassCastException if object[] cant cast to T[]
      */
-    private void shiftSubtree(Node first, Node second) {
-        if (first.parent == null) {
-            root = second;
-        } else if (first == first.parent.left) {
-            first.parent.left = second;
-        } else {
-            first.parent.right = second;
+    private void shiftSubtree(T first, T second) {
+        T[] subtrees = treeMap.get(second);
+        for(int i = 0; i < subtrees.length; ++i){
+            if (subtrees[i] == first){
+                subtrees[i] = treeMap.get(first)[0];
+            }
         }
-        if (second != null) {
-            second.parent = first.parent;
+        T[] newSubtree = (T[]) new Object[subtrees.length + treeMap.get(first).length + 1];
+        System.arraycopy(subtrees, 0, newSubtree, 0, subtrees.length);
+        for(int i = 1; i < treeMap.get(first).length; ++i){
+            newSubtree[subtrees.length + i - 1] = treeMap.get(first)[i];
         }
+        treeMap.put(second, newSubtree);
     }
 
     /**
-     * Find the most left child of the right child current node
+     * Not supported.
      *
-     * @param node node we need find their most left child
-     *             of the current right child
-     * @return new node
-     */
-    private Node child(Node node) {
-        node = node.right;
-        while (node.left != null) {
-            node = node.left;
-        }
-        return node;
-    }
-
-    /**
-     * Idk how realize this now.
-     * Need I?
-     *
-     * @throws UnsupportedOperationException optional thing in our task i guess
+     * @throws UnsupportedOperationException optional thing in our task
      */
     @Override
     public Object[] toArray() {
@@ -262,10 +269,9 @@ public class Tree<T extends Comparable<T>> implements Collection<T> {
     }
 
     /**
-     * Idk how realize this now.
-     * Need I?
+     * Not supported.
      *
-     * @throws UnsupportedOperationException optional thing in our task i guess
+     * @throws UnsupportedOperationException optional thing in our task
      */
     @Override
     public <T1> T1[] toArray(T1[] a) {
@@ -273,6 +279,8 @@ public class Tree<T extends Comparable<T>> implements Collection<T> {
     }
 
     /**
+     * Not supported.
+     *
      * @throws UnsupportedOperationException optional thing
      */
     @Override
@@ -280,43 +288,28 @@ public class Tree<T extends Comparable<T>> implements Collection<T> {
         throw new UnsupportedOperationException();
     }
 
-    /**
-     * Node class.
-     */
-    class Node {
-        public Node left;
-        T member;
-        Node right;
-        Node parent;
-
-        Node(T value) {
-            this.member = value;
-        }
-    }
 
     /**
      * Tree iterator class
      */
     class TreeIterator implements Iterator<T> {
         private final int expectedModificationCount = modificationCount;
-        private Node next;
+        private T next;
 
         /**
-         * Tree iterator (left side).
+         * Tree iterator.
          */
-        TreeIterator() {
+        TreeIterator(String flagOfSearch) {
             next = root;
             if (next == null) {
                 return;
             }
-            while (next.left != null) {
-                next = next.left;
-            }
+
         }
 
         /**
          * @throws ConcurrentModificationException if we try to change collection
-         * while iterate it.
+         *                                         while iterate it.
          */
         private void checkModification() {
             if (modificationCount != expectedModificationCount) {
@@ -328,7 +321,7 @@ public class Tree<T extends Comparable<T>> implements Collection<T> {
          * Check that we did not change collection
          *
          * @return true if iterator find next member in tree.
-         *         false otherwise.
+         * false otherwise.
          */
         @Override
         public boolean hasNext() {
@@ -348,27 +341,7 @@ public class Tree<T extends Comparable<T>> implements Collection<T> {
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            Node answer = next;
-
-            if (next.right != null) {
-                next = next.right;
-                while (next.left != null) {
-                    next = next.left;
-                }
-                return answer.member;
-            }
-
-            while (true) {
-                if (next.parent == null) {
-                    next = null;
-                    return answer.member;
-                }
-                if (next.parent.left == next) {
-                    next = next.parent;
-                    return answer.member;
-                }
-                next = next.parent;
-            }
+            return next;
         }
     }
 }
