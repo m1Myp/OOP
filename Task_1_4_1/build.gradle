@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'
 }
 
 group 'org.example'
@@ -9,6 +10,7 @@ repositories {
 }
 
 dependencies {
+    implementation 'junit:junit:4.12'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.4.2'
 }
 
@@ -16,3 +18,8 @@ test {
     useJUnitPlatform()
 }
 
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
