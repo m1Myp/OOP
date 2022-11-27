@@ -34,19 +34,7 @@ public class SubstringSearchTests {
         StringReader.close();
     }
 
-    @ParameterizedTest
-    @MethodSource("allTests")
-    public void FileReaderTests(String fileName, String subStr, String str, int[] expectedResult) throws IOException {
-        createTextFile(fileName, str);
-        InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(fileName), StandardCharsets.UTF_8);
-        ArrayList<Integer> fsm = SubstringSearch.finiteStateMashine(inputStreamReader, subStr);
-        int[] result = fsm.stream().mapToInt(i -> i).toArray();
-        assertArrayEquals(expectedResult, result);
-        inputStreamReader.close();
 
-        File file = new File(fileName);
-        boolean wasDeleted = file.delete();
-    }
 
     private static Stream<Arguments> allTests() {
         return Stream.of(
