@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 
 public class SubstringSearchTests {
-
+/*
     @BeforeAll
     public static void createFolder() {
         File theDir = new File("/temp");
@@ -23,7 +23,7 @@ public class SubstringSearchTests {
             theDir.mkdirs();
         }
     }
-
+*/
     @ParameterizedTest
     @MethodSource("allTests")
     public void StringReaderTests(String fileName, String subStr, String str, int[] expectedResult) throws IOException {
@@ -66,7 +66,7 @@ public class SubstringSearchTests {
         fw.write(str);
         fw.close();
     }
-
+/*
     @AfterAll
     public static void deleteFolder() {
         File theDir = new File("/temp");
@@ -74,6 +74,6 @@ public class SubstringSearchTests {
             theDir.delete();
         }
     }
-
+*/
 
 }
