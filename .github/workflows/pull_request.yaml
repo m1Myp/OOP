@@ -6,7 +6,8 @@ name: CI
 on: { pull_request: { branches: [ main, master ] } }
 
 env:
-  JAVA_OPTS: -Djava.net.preferIPv4Stack=true
+  JAVA_OPTS: -Djava.net.preferIPv6Addresses=true
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx5g -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError -Djava.net.preferIPv6Addresses=true" -Dfile.encoding=UTF-8
 
 jobs:
   build:
