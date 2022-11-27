@@ -1,4 +1,4 @@
-package ru.nsu.fit.oop.lab2;
+package ru.nsu.fit.oop.lab3;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 
 public class SubstringSearchTests {
-/*
+
     @BeforeAll
     public static void createFolder() {
         File theDir = new File("/temp");
@@ -23,7 +23,7 @@ public class SubstringSearchTests {
             theDir.mkdirs();
         }
     }
-*/
+
     @ParameterizedTest
     @MethodSource("allTests")
     public void StringReaderTests(String fileName, String subStr, String str, int[] expectedResult) throws IOException {
@@ -32,9 +32,6 @@ public class SubstringSearchTests {
         int[] result = fsm.stream().mapToInt(i -> i).toArray();
         assertArrayEquals(expectedResult, result);
         StringReader.close();
-
-        File file = new File(fileName);
-        boolean wasDeleted = file.delete();
     }
 
     @ParameterizedTest
@@ -62,11 +59,11 @@ public class SubstringSearchTests {
     }
 
     private static void createTextFile(String fileName, String str) throws IOException {
-        FileWriter fw = new FileWriter(fileName, StandardCharsets.UTF_8);
-        fw.write(str);
-        fw.close();
+        FileWriter fileWriter = new FileWriter(fileName, StandardCharsets.UTF_8);
+        fileWriter.write(str);
+        fileWriter.close();
     }
-/*
+
     @AfterAll
     public static void deleteFolder() {
         File theDir = new File("/temp");
@@ -74,6 +71,6 @@ public class SubstringSearchTests {
             theDir.delete();
         }
     }
-*/
+
 
 }
