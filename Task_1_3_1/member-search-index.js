@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"ru.nsu.fit.oop.lab2","c":"SubstringSearch","l":"SubstringSearch()","url":"%3Cinit%3E()"},{"p":"ru.nsu.fit.oop.lab2","c":"SubstringSearch","l":"zFunction(Reader, String)","url":"zFunction(java.io.Reader,java.lang.String)"}]
