@@ -3,11 +3,11 @@ package ru.nsu.fit.oop.lab2;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
 import java.util.List;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.ParameterizedTest;
