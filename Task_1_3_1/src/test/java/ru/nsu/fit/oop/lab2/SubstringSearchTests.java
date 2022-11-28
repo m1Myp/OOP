@@ -12,15 +12,6 @@ import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 
 public class SubstringSearchTests {
-/*
-    @BeforeAll
-    public static void createFolder() {
-        File theDir = new File("/temp");
-        if (!theDir.exists()) {
-            theDir.mkdirs();
-        }
-    }
-*/
     @ParameterizedTest
     @MethodSource("allTests")
     public void StringReaderTests(String subStr, String str, int[] expectedResult) throws IOException {
@@ -60,3 +51,4 @@ public class SubstringSearchTests {
                 Arguments.of("b", "a".repeat(10000) + 'b' + " a".repeat(10000), new int[]{10000})
         );
     }
+}
