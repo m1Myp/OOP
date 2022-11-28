@@ -1,4 +1,4 @@
-package ru.nsu.fit.oop.lab3;
+package ru.nsu.fit.oop.lab2;
 
 import java.io.*;
 import java.util.ArrayList;
