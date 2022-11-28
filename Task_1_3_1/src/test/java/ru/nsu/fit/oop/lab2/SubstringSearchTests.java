@@ -10,21 +10,38 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-
 public class SubstringSearchTests {
+    /**
+     * Finding substring in stringreader
+     *
+     * @param subStr         - substring we need to fing
+     * @param str            - string in what we need find substring
+     * @param expectedResult - result we wanna to check
+     * @throws IOException if some problems with a reading of the reader
+     */
     @ParameterizedTest
     @MethodSource("allTests")
-    public void StringReaderTests(String subStr, String str, int[] expectedResult) throws IOException {
-        StringReader StringReader = new StringReader(str);
-        List<Integer> fsm = SubstringSearch.zFunction(StringReader, subStr);
+    public void stringreadertests(String subStr, String str, int[] expectedResult)
+            throws IOException {
+        StringReader stringreader = new StringReader(str);
+        List<Integer> fsm = SubstringSearch.zfunction(stringreader, subStr);
         int[] result = fsm.stream().mapToInt(i -> i).toArray();
         assertArrayEquals(expectedResult, result);
-        StringReader.close();
+        stringreader.close();
     }
 
+    /**
+     * Finding substring in filereader using temporary creation new file
+     *
+     * @param subStr         - substring we need to find
+     * @param str            - string in what we need find substring
+     * @param expectedResult - result we wanna to check
+     * @throws IOException if some problems with a reading of the reader
+     */
     @ParameterizedTest
     @MethodSource("allTests")
-    public void FileReaderTests(String subStr, String str, int[] expectedResult) throws IOException {
+    public void filereadertest(String subStr, String str, int[] expectedResult)
+            throws IOException {
         File f = null;
         try {
             f = File.createTempFile("---", "---");
@@ -32,14 +49,15 @@ public class SubstringSearchTests {
             fileWriter.write(str);
             fileWriter.close();
 
-        InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(f));
-        List<Integer> fsm = SubstringSearch.zFunction(inputStreamReader, subStr);
-        int[] result = fsm.stream().mapToInt(i -> i).toArray();
-        assertArrayEquals(expectedResult, result);
-        inputStreamReader.close();
+            InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(f));
+            List<Integer> fsm = SubstringSearch.zfunction(inputStreamReader, subStr);
+            int[] result = fsm.stream().mapToInt(i -> i).toArray();
+            assertArrayEquals(expectedResult, result);
+            inputStreamReader.close();
         } finally {
-            if (f != null)
+            if (f != null) {
                 f.delete();
+            }
         }
     }
 
