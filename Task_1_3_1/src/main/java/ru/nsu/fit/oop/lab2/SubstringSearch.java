@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class SubstringSearch {
 /**
- * Finds the indices of the occurrence of a substring {@param searchParam} in {@param file}.
+ * Finds the indices of the occurrence of a substring needle in reader.
  *
  * @param reader Reader where we want to search occurrence
  * @param needle String we want to find
