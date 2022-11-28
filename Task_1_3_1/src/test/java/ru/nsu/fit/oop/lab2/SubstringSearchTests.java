@@ -14,10 +14,12 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-
+/**
+ * substring search tests.
+ */
 public class SubstringSearchTests {
     /**
-     * Finding substring in stringreader
+     * Finding substring in stringreader.
      *
      * @param subStr         - substring we need to fing
      * @param str            - string in what we need find substring
@@ -36,7 +38,7 @@ public class SubstringSearchTests {
     }
 
     /**
-     * Finding substring in filereader using temporary creation new file
+     * Finding substring in filereader using temporary creation new file.
      *
      * @param subStr         - substring we need to find
      * @param str            - string in what we need find substring
@@ -68,7 +70,8 @@ public class SubstringSearchTests {
 
     private static Stream<Arguments> allTests() {
         return Stream.of(
-                Arguments.of("nnn", "nnnnn n n nn nnnn nnnn nnn", new int[]{0, 1, 2, 13, 14, 18, 19, 23}),
+                Arguments.of("nnn", "nnnnn n n nn nnnn nnnn nnn",
+                        new int[]{0, 1, 2, 13, 14, 18, 19, 23}),
                 Arguments.of("ara", "ararara arara araara", new int[]{0, 2, 4, 8, 10, 14, 17}),
                 Arguments.of("qqqq", "ararara arara araara", new int[]{}),
                 Arguments.of("b", "a".repeat(10000) + 'b' + " a".repeat(10000), new int[]{10000})
