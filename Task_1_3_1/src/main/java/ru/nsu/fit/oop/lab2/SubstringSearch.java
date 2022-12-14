@@ -15,63 +15,33 @@ public class SubstringSearch {
      * Finds the indices of the occurrence of a substring needle in reader.
      *
      * @param reader Reader where we want to search occurrence
-     * @param needle String we want to find
+     * @param substring String we want to find
      * @return array of indices of the occurrences. Count from 0
      * @throws IOException if some problems with a reading of the reader
      */
-    public static List<Integer> zfunction(Reader reader, String needle) throws IOException {
-        var rdr = new BufferedReader(reader);
-
-        var m = needle.length();
-        var s = needle.toCharArray();
-        var suffshift = new int[m + 1];
-        Arrays.fill(suffshift, m);
-        var z = new int[m];
-        int maxZidx = 0;
-        int maxZ = 0;
-        for (int j = 1; j < m; j++) {
-            if (j <= maxZ) {
-                z[j] = Math.min(maxZ - j + 1, z[j - maxZidx]);
-            }
-            while (j + z[j] < m && s[m - 1 - z[j]] == s[m - 1 - (j + z[j])]) {
-                ++z[j];
-            }
-            if (j + z[j] - 1 > maxZ) {
-                maxZidx = j;
-                maxZ = j + z[j] - 1;
-            }
-        }
-        for (int j = m - 1; j > 0; j--) {
-            suffshift[m - z[j]] = j;
-        }
-        for (int j = 1, r = 0; j <= m - 1; j++) {
-            if (j + z[j] == m) {
-                for (; r <= j; r++) {
-                    if (suffshift[r] == m) {
-                        suffshift[r] = j;
-                    }
-                }
-            }
-        }
-
+    public static List<Integer> zfunction(Reader reader, String substring) throws IOException {
+        Reader rdr = new BufferedReader(reader);
+        char[] string = substring.toCharArray();
+        int len = substring.length();
+        int[] suffshift = zsuffshift(len, string);
         int j;
         int bound = 0;
         int i = 0;
 
-        var cbuf = new char[m];
-        var ret = new ArrayList<Integer>();
+        char[] cbuf = new char[len];
+        ArrayList<Integer> ret = new ArrayList<>();
 
         while (true) {
-            rdr.mark(2 * m);
-            if (rdr.read(cbuf, 0, m) != m) {
+            rdr.mark(2 * len);
+            if (rdr.read(cbuf, 0, len) != len) {
                 break;
             }
-            for (j = m - 1; j >= bound && s[j] == cbuf[j]; ) {
+            for (j = len - 1; j >= bound && string[j] == cbuf[j]; ) {
                 j--;
             }
             if (j < bound) {
                 ret.add(i);
-                bound = m - suffshift[0];
+                bound = len - suffshift[0];
                 j = -1;
             } else {
                 bound = 0;
@@ -82,7 +52,47 @@ public class SubstringSearch {
             }
             i += suffshift[j + 1];
         }
-
         return ret;
+    }
+
+    /**
+     * Algorithm for calculating the suffix table.
+     *
+     * @param len Len of the string
+     * @param string String we want to find suffix table
+     * @return array of suffix table. Count from arr[0] - mean all substr in str
+     * arr[len] - empty suffix
+     */
+    private static int[] zsuffshift(int len, char[] string) {
+        int[] suffshift = new int[len + 1];
+        Arrays.fill(suffshift, len);
+        int[] z = new int[len];
+        int left = 0;
+        int right = 0;
+        for (int j = 1; j < len; j++) {
+            if (j <= right) {
+                z[j] = Math.min(right - j + 1, z[j - left]);
+            }
+            while (j + z[j] < len && string[len - 1 - z[j]] == string[len - 1 - (j + z[j])]) {
+                ++z[j];
+            }
+            if (j + z[j] - 1 > right) {
+                left = j;
+                right = j + z[j] - 1;
+            }
+        }
+        for (int j = len - 1; j > 0; j--) {
+            suffshift[len - z[j]] = j;
+        }
+        for (int j = 1; j <= len - 1; j++) {
+            if (j + z[j] == len) {
+                for (int r = 0; r <= j; r++) {
+                    if (suffshift[r] == len) {
+                        suffshift[r] = j;
+                    }
+                }
+            }
+        }
+        return suffshift;
     }
 }
