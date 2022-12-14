@@ -60,8 +60,7 @@ public class SubstringSearch {
      *
      * @param len Len of the string
      * @param string String we want to find suffix table
-     * @return array of suffix table. Count from arr[0] - mean all substr in str
-     *                                arr[len] - empty suffix
+     * @return array of suffix table. 
      */
     private static int[] zsuffshift(int len, char[] string) {
         int[] suffshift = new int[len + 1];
