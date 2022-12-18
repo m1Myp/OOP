@@ -33,7 +33,7 @@ public class GradeBookTests {
     }
 
     /**
-     * All tests for this task
+     * All tests for this task.
      *
      * @param name student name
      * @param marks stident marks
