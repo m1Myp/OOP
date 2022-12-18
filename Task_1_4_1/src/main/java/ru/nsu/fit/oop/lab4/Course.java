@@ -4,9 +4,9 @@ public class Course {
     private final String courseName;
     private final Marks[] marks;
 
-    public Course(String cName, Marks[] mks) {
-        courseName = cName;
-        marks = mks;
+    public Course(String courseName, Marks[] marks) {
+        this.courseName = courseName;
+        this.marks = marks;
     }
 
     public String getCourseName(){
@@ -16,6 +16,4 @@ public class Course {
     public Marks[] getMarks(){
         return marks;
     }
-
-
 }
