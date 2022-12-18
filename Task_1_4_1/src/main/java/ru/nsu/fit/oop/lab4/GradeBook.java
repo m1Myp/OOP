@@ -42,8 +42,7 @@ public class GradeBook {
         for (int i = 0; i < countOfSemesters; ++i) {
             if (amount[i] == 0) {
                 averageArray[i] = 0;
-           }
-            else {
+            } else {
                 averageArray[i] = (double) sum[i] / (double) amount[i];
             }
         }
