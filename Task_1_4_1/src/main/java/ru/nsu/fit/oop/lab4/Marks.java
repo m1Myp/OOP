@@ -1,11 +1,11 @@
 package ru.nsu.fit.oop.lab4;
 
 public class Marks {
-    private final int semester;
-    private final int mark;
-    public Marks(int sem, int mk){
-        mark = mk;
-        semester = sem;
+    private int semester;
+    private int mark;
+    public Marks(int semester, int mark){
+        this.mark = mark;
+        this.semester = semester;
     }
 
     public int getSemester(){
@@ -14,5 +14,10 @@ public class Marks {
 
     public int getMark(){
         return mark;
+    }
+
+    public void setMark(int sem, int mk){
+        this.mark = mk;
+        this.semester = sem;
     }
 }
