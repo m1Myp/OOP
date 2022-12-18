@@ -3,11 +3,12 @@ package ru.nsu.fit.oop.lab4;
 public class GradeBook {
     private final String studentName;
     private final int countOfSemesters = 8;
+    private int currentSemesters;
     private Course[] courses;
 
-    public GradeBook(String name, Course[] crs) {
-        studentName = name;
-        courses = crs;
+    public GradeBook(String name, Course[] courses) {
+        this.studentName = name;
+        this.courses = courses;
     }
 
     public String getStudentName(){
@@ -18,11 +19,12 @@ public class GradeBook {
         return courses;
     }
 
+
     /**
      * count the average mark for each semester
      * @return semesterAverage
      */
-    private double[] semesterAverage(){
+    private double semesterAverage(int currentSemesters){
         double[] averageArray = new double[countOfSemesters];
         int[] amount = new int[countOfSemesters];
         int[] sum = new int[countOfSemesters];
@@ -40,7 +42,7 @@ public class GradeBook {
             else
                 averageArray[i] = (double) sum[i] / (double) amount[i];
         }
-        return averageArray;
+        return averageArray[currentSemesters];
     }
 
     /**
@@ -50,10 +52,9 @@ public class GradeBook {
     {
         double answer = 0;
         int amount = 0;
-        double[] semAvrg = semesterAverage();
         for(int i = 0; i < countOfSemesters; ++i) {
-            answer += semAvrg[i];
-            if(semAvrg[i]>0)
+            answer += semesterAverage(i);
+            if(semesterAverage(i)>0)
                 ++amount;
         }
         return answer/(double) amount;
@@ -97,7 +98,7 @@ public class GradeBook {
     {
         if(selectedSemester == 0)
             return false;
-        if(semesterAverage()[selectedSemester-1] != 5)
+        if(semesterAverage(selectedSemester-1) != 5)
             return false;
         return true;
     }
