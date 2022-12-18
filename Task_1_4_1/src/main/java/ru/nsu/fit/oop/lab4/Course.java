@@ -1,5 +1,8 @@
 package ru.nsu.fit.oop.lab4;
 
+/**
+ * Class of one current course.
+ */
 public class Course {
     private final String courseName;
     private final Marks[] marks;
@@ -9,11 +12,11 @@ public class Course {
         this.marks = marks;
     }
 
-    public String getCourseName(){
+    public String getCourseName() {
         return courseName;
     }
 
-    public Marks[] getMarks(){
+    public Marks[] getMarks() {
         return marks;
     }
 }
