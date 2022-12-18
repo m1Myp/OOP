@@ -27,7 +27,7 @@
     catch(err) {
     }
 //-->
-var data = {"i0":10,"i1":10};
+var data = {"i0":10,"i1":10,"i2":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -152,8 +152,8 @@ extends java.lang.Object</pre>
 <th class="colLast" scope="col">Description</th>
 </tr>
 <tr class="altColor">
-<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(int,int)">Marks</a></span>&#8203;(int&nbsp;sem,
-     int&nbsp;mk)</code></th>
+<th class="colConstructorName" scope="row"><code><span class="memberNameLink"><a href="#%3Cinit%3E(int,int)">Marks</a></span>&#8203;(int&nbsp;semester,
+     int&nbsp;mark)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -182,6 +182,12 @@ extends java.lang.Object</pre>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#getSemester()">getSemester</a></span>()</code></th>
+<td class="colLast">&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
+<td class="colFirst"><code>void</code></td>
+<th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#setMark(int,int)">setMark</a></span>&#8203;(int&nbsp;sem,
+       int&nbsp;mk)</code></th>
 <td class="colLast">&nbsp;</td>
 </tr>
 </table>
@@ -214,8 +220,8 @@ extends java.lang.Object</pre>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>Marks</h4>
-<pre>public&nbsp;Marks&#8203;(int&nbsp;sem,
-             int&nbsp;mk)</pre>
+<pre>public&nbsp;Marks&#8203;(int&nbsp;semester,
+             int&nbsp;mark)</pre>
 </li>
 </ul>
 </li>
@@ -240,10 +246,20 @@ extends java.lang.Object</pre>
 <a id="getMark()">
 <!--   -->
 </a>
-<ul class="blockListLast">
+<ul class="blockList">
 <li class="blockList">
 <h4>getMark</h4>
 <pre class="methodSignature">public&nbsp;int&nbsp;getMark()</pre>
+</li>
+</ul>
+<a id="setMark(int,int)">
+<!--   -->
+</a>
+<ul class="blockListLast">
+<li class="blockList">
+<h4>setMark</h4>
+<pre class="methodSignature">public&nbsp;void&nbsp;setMark&#8203;(int&nbsp;sem,
+                    int&nbsp;mk)</pre>
 </li>
 </ul>
 </li>
