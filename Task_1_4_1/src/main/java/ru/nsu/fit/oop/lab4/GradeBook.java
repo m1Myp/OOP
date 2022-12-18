@@ -42,7 +42,7 @@ public class GradeBook {
         for (int i = 0; i < countOfSemesters; ++i) {
             if (amount[i] == 0) {
                 averageArray[i] = 0;
-            }
+           }
             else {
                 averageArray[i] = (double) sum[i] / (double) amount[i];
             }
@@ -55,8 +55,7 @@ public class GradeBook {
      *
      * @return the average mark for all the semesters student completed
      */
-    public double averageMark()
-    {
+    public double averageMark() {
         double answer = 0;
         int amount = 0;
         for (int i = 0; i < countOfSemesters; ++i) {
