@@ -13,8 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GradeBookTests {
     Marks[] CreateMarks(int[][] marks){
         Marks[] mks = new Marks[marks.length];
-        for(int i = 0; i < marks.length; ++i)
-            mks[i] = new Marks(marks[i][0], marks[i][1]);
+        for(int i = 0; i < marks.length; ++i) {
+            mks[i] = new Marks(0,0);
+            mks[i].setMark(marks[i][0], marks[i][1]);
+        }
         return mks;
     }
 
@@ -65,7 +67,7 @@ public class GradeBookTests {
                         {{0,5},{1,5}},
                         {{0,5}},
                         {{0,5}}
-        }),
+                }),
                 Arguments.of("lazyPerson", new int[][][]{
                         {{0,3},{1,3}},
                         {{0,3},{1,3}},
@@ -90,5 +92,4 @@ public class GradeBookTests {
                 })
         );
     }
-
 }
