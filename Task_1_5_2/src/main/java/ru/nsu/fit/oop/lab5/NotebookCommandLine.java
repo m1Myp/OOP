@@ -1,8 +1,5 @@
 package ru.nsu.fit.oop.lab5;
 
-import picocli.CommandLine;
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Parameters;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,8 +8,15 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.Callable;
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Parameters;
 
 
+
+/**
+ * Class of notebook uses comand lines.
+ */
 @Command()
 public class NotebookCommandLine implements Callable<Integer> {
     private final Notebook notebook;
@@ -22,6 +26,11 @@ public class NotebookCommandLine implements Callable<Integer> {
         this.notebook = notebook;
     }
 
+    /**
+     * Main function which work with command from console.
+     *
+     * @param args args of comand lines
+     */
     public static void main(String[] args) {
         Notebook notebook = new Notebook();
         try (var reader = new FileReader("notebook.json")) {
@@ -70,13 +79,25 @@ public class NotebookCommandLine implements Callable<Integer> {
         return 0;
     }
 
+    /**
+     * Filters note we need. From date to date
+     * with keywords (like in the simple one)
+     *
+     * @param after from what date
+     * @param before to what date
+     * @param keywords keyword we need
+     *
+     * @return 0 if succeed
+     */
     @Command(name = "filter")
     public Integer filter(
             @Parameters(paramLabel = "FROM", index = "0") Date after,
             @Parameters(paramLabel = "TO", index = "1") Date before,
             @Parameters(paramLabel = "KEYWORDS", index = "2..*") String[] keywords
     ) {
-        if (keywords == null) keywords = new String[]{""};
+        if (keywords == null) {
+            keywords = new String[]{""};
+        }
         notebook.getNotes(after.toInstant(), before.toInstant(), keywords).forEach(this::printNote);
         return 0;
     }
