@@ -36,6 +36,7 @@ public class NotebookCommandLine implements Callable<Integer> {
         try (var reader = new FileReader("notebook.json")) {
             notebook.load(reader);
         } catch (IOException ignored) {
+            System.out.println("Ignore that");
         }
 
 
