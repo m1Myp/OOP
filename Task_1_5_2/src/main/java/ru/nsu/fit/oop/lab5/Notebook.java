@@ -7,7 +7,6 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializer;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.Reader;
 import java.io.Writer;
 import java.time.Instant;
@@ -17,19 +16,29 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Notebook class.
+ */
 public class Notebook {
     private final Gson json;
     private List<Note> notes = new ArrayList<>();
 
     Notebook() {
         json = new GsonBuilder()
-                .registerTypeAdapter(Instant.class, (JsonDeserializer<Instant>) (json, typeOfT, context)
+                .registerTypeAdapter(Instant.class,
+                        (JsonDeserializer<Instant>) (json, typeOfT, context)
                         -> Instant.ofEpochMilli(json.getAsLong()))
-                .registerTypeAdapter(Instant.class, (JsonSerializer<Instant>) (src, typeOfSrc, context)
+                .registerTypeAdapter(Instant.class,
+                        (JsonSerializer<Instant>) (src, typeOfSrc, context)
                         -> new JsonPrimitive(src.toEpochMilli()))
                 .create();
     }
 
+    /**
+     * Load from reader to our notebook.
+     *
+     * @param reader from what we read
+     */
     public void load(Reader reader) {
         ArrayList<Note> loaded = json.fromJson(reader, new TypeToken<ArrayList<Note>>() {
         }.getType());
@@ -38,6 +47,11 @@ public class Notebook {
         }
     }
 
+    /**
+     * Save our notebook to writer.
+     *
+     * @param writer where we need to save
+     */
     public void save(Writer writer) {
         json.toJson(notes, writer);
     }
@@ -54,12 +68,22 @@ public class Notebook {
         return notes;
     }
 
+
+    /**
+     *Get notes from date we need, using keywords too.
+     *
+     * @param minDate from what date
+     * @param maxDate to what date
+     * @param keywords keywords we need to find
+     *
+     * @return notes we found
+     */
     public List<Note> getNotes(Instant minDate, Instant maxDate, String[] keywords) {
         return notes.stream().filter((note) ->
-                note.getTimestamp().isAfter(minDate) &&
-                        note.getTimestamp().isBefore(maxDate) &&
-                        Arrays.stream(keywords).anyMatch((keyword)
-                                -> note.getTitle().toLowerCase().contains(keyword.toLowerCase()))
+                note.getTimestamp().isAfter(minDate)
+                        && note.getTimestamp().isBefore(maxDate)
+                        && Arrays.stream(keywords).anyMatch((keyword)
+                            -> note.getTitle().toLowerCase().contains(keyword.toLowerCase()))
         ).collect(Collectors.toList());
     }
 }
