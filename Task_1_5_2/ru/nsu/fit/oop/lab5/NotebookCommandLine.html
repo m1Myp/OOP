@@ -137,6 +137,7 @@ $('.navPadding').css('padding-top', $('.fixedNav').css("height"));
 <pre>public class <span class="typeNameLabel">NotebookCommandLine</span>
 extends java.lang.Object
 implements java.util.concurrent.Callable&lt;java.lang.Integer&gt;</pre>
+<div class="block">Class of notebook uses comand lines.</div>
 </li>
 </ul>
 </div>
@@ -173,12 +174,16 @@ implements java.util.concurrent.Callable&lt;java.lang.Integer&gt;</pre>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#filter(java.util.Date,java.util.Date,java.lang.String%5B%5D)">filter</a></span>&#8203;(java.util.Date&nbsp;after,
       java.util.Date&nbsp;before,
       java.lang.String[]&nbsp;keywords)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Filters note we need.</div>
+</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>static void</code></td>
 <th class="colSecond" scope="row"><code><span class="memberNameLink"><a href="#main(java.lang.String%5B%5D)">main</a></span>&#8203;(java.lang.String[]&nbsp;args)</code></th>
-<td class="colLast">&nbsp;</td>
+<td class="colLast">
+<div class="block">Main function which work with command from console.</div>
+</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>java.lang.Integer</code></td>
@@ -221,6 +226,11 @@ implements java.util.concurrent.Callable&lt;java.lang.Integer&gt;</pre>
 <li class="blockList">
 <h4>main</h4>
 <pre class="methodSignature">public static&nbsp;void&nbsp;main&#8203;(java.lang.String[]&nbsp;args)</pre>
+<div class="block">Main function which work with command from console.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>args</code> - args of comand lines</dd>
+</dl>
 </li>
 </ul>
 <a id="call()">
@@ -273,6 +283,16 @@ implements java.util.concurrent.Callable&lt;java.lang.Integer&gt;</pre>
 <pre class="methodSignature">public&nbsp;java.lang.Integer&nbsp;filter&#8203;(java.util.Date&nbsp;after,
                                 java.util.Date&nbsp;before,
                                 java.lang.String[]&nbsp;keywords)</pre>
+<div class="block">Filters note we need. From date to date
+ with keywords (like in the simple one)</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>after</code> - from what date</dd>
+<dd><code>before</code> - to what date</dd>
+<dd><code>keywords</code> - keyword we need</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>0 if succeed</dd>
+</dl>
 </li>
 </ul>
 </li>
