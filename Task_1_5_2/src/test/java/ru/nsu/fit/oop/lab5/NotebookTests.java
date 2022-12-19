@@ -1,14 +1,16 @@
 package ru.nsu.fit.oop.lab5;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.time.Instant;
+import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-class NotebookTest {
+/**
+ * Notebook tests class.
+ */
+class NotebookTests {
     private static Notebook generateNotebook() {
         Notebook nb = new Notebook();
         nb.add("1", "qwerty");
@@ -33,10 +35,10 @@ class NotebookTest {
         nb.save(writer);
         StringReader reader = new StringReader(writer.toString());
 
-        Notebook new_nb = new Notebook();
-        new_nb.load(reader);
+        Notebook newnotebook = new Notebook();
+        newnotebook.load(reader);
 
-        assertThat(new_nb.getNotes()).containsExactlyElementsOf(nb.getNotes());
+        assertThat(newnotebook.getNotes()).containsExactlyElementsOf(nb.getNotes());
     }
 
 
@@ -53,8 +55,11 @@ class NotebookTest {
     void getNotes() {
         Notebook nb = generateNotebook();
         assertThat(nb.getNotes().size()).isEqualTo(9);
-        assertThat(nb.getNotes(Instant.MIN, Instant.MAX, new String[]{"1"}).size()).isEqualTo(1);
-        assertThat(nb.getNotes(Instant.MIN, Instant.MAX, new String[]{"point"}).size()).isEqualTo(3);
-        assertThat(nb.getNotes(Instant.MIN, Instant.MAX, new String[]{"1", "point"}).size()).isEqualTo(4);
+        assertThat(nb.getNotes(Instant.MIN, Instant.MAX,
+                new String[]{"1"}).size()).isEqualTo(1);
+        assertThat(nb.getNotes(Instant.MIN, Instant.MAX,
+                new String[]{"point"}).size()).isEqualTo(3);
+        assertThat(nb.getNotes(Instant.MIN, Instant.MAX,
+                new String[]{"1", "point"}).size()).isEqualTo(4);
     }
 }
