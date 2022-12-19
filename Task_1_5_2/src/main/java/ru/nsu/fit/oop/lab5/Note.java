@@ -10,6 +10,13 @@ public final class Note {
     private final String title;
     private final String text;
 
+    /**
+     * Note creator
+     *
+     * @param timestamp time we create note
+     * @param title title of note
+     * @param text text of note
+     */
     public Note(Instant timestamp, String title, String text) {
         this.timestamp = timestamp;
         this.title = title;
@@ -37,7 +44,7 @@ public final class Note {
             return false;
         }
         Note note = (Note) o;
-        return timestamp.compareTo(note.timestamp) ==
-                0 && title.equals(note.title) && text.equals(note.text);
+        return timestamp.compareTo(note.timestamp)
+                == 0 && title.equals(note.title) && text.equals(note.text);
     }
 }
