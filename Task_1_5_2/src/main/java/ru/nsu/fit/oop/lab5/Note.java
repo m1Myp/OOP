@@ -2,6 +2,9 @@ package ru.nsu.fit.oop.lab5;
 
 import java.time.Instant;
 
+/**
+ * Note class.
+ */
 public final class Note {
     private final Instant timestamp;
     private final String title;
@@ -34,6 +37,7 @@ public final class Note {
             return false;
         }
         Note note = (Note) o;
-        return timestamp.compareTo(note.timestamp) == 0 && title.equals(note.title) && text.equals(note.text);
+        return timestamp.compareTo(note.timestamp) ==
+                0 && title.equals(note.title) && text.equals(note.text);
     }
 }
