@@ -1,22 +1,23 @@
 package ru.nsu.fit.oop.lab5;
 
-import org.junit.jupiter.api.Test;
-import picocli.CommandLine;
+import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import picocli.CommandLine;
 
-import static org.assertj.core.api.Assertions.assertThat;
 
-class NotebookCLITest {
+class NotebookCommandLineTest {
     @Test
     void commandline() {
         Notebook nb = new Notebook();
         NotebookCommandLine commandLine = new NotebookCommandLine(nb);
         CommandLine executor = new CommandLine(commandLine)
-                .registerConverter(Date.class, s -> new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(s));
+                .registerConverter(Date.class, s
+                        -> new SimpleDateFormat("dd.MM.yyyy HH:mm").parse(s));
         executor.execute("add", "First m", "textbewr5trebtt5");
         executor.execute("add", "Bad", "textbrebttewthyw5");
         executor.execute("add", "Second m", "textbrebtt5e5h4");
