@@ -11,7 +11,7 @@ public final class Note {
     private final String text;
 
     /**
-     * Note creator
+     * Note creator.
      *
      * @param timestamp time we create note
      * @param title title of note
