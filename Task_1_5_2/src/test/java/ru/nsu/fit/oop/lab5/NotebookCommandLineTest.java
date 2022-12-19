@@ -2,11 +2,11 @@ package ru.nsu.fit.oop.lab5;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
 
 
