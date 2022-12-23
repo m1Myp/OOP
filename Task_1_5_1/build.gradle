@@ -1,21 +1,13 @@
 plugins {
     id 'java'
-    id 'java-library'
+    id 'com.github.johnrengelman.shadow' version '7.1.0'
     id 'jacoco'
 }
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
-compileJava {
-    options.compilerArgs += ["--enable-preview"]
-}
-
-compileTestJava {
-    options.compilerArgs += ["--enable-preview"]
-}
 dependencies {
     implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
@@ -24,7 +16,6 @@ dependencies {
 }
 
 test {
-    jvmArgs(['--enable-preview'])
     useJUnitPlatform()
 }
 
