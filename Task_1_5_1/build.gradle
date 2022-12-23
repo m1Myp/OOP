@@ -1,11 +1,7 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '7.1.0'
+    id 'java-library'
     id 'jacoco'
-}
-
-plugins {
-    `java-library`
 }
 
 repositories {
@@ -13,7 +9,7 @@ repositories {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_12
+    sourceCompatibility = JavaVersion.VERSION_17
 }
 
 tasks.withType<JavaCompile> {
