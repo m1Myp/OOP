@@ -21,7 +21,7 @@ jobs:
         run: chmod +x ./gradlew
     
       - name: Execute Gradle build
-        run: ./gradlew build --enable-preview
+        run: ./gradlew build
 
       - name: Generate Jacoco report
         run: ./gradlew jacocoTestReport
