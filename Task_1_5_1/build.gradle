@@ -12,12 +12,8 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
 
-tasks.withType<JavaCompile> {
+javaCompile {
     options.compilerArgs.add("--enable-preview")
-}
-tasks.test {
-    useJUnitPlatform()
-    jvmArgs("--enable-preview")
 }
 
 dependencies {
