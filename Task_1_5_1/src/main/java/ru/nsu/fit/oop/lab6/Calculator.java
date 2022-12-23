@@ -1,26 +1,20 @@
 package ru.nsu.fit.oop.lab6;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scaner;
-import java.util.Stack;
-import java.util.function.BiFunction;
-import java.util.function.Function;
-import java.util.nextLine;
-import java.util.regex.Pattern;
 import org.apache.commons.math3.complex.Complex;
 
-
+import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.regex.Pattern;
 
 record Operation(String regex, int arity, BiFunction<Complex[], String, Complex> evaluate) {
-        Operation(String regex, int arity, Function<Complex[], Complex> f){
+    Operation(String regex, int arity, Function<Complex[], Complex> f){
         this(regex, arity, (values, s) -> f.apply(values));
-        }
-        }
+    }
+}
 
 record Token(Operation op, String text) {
-        }
+}
 
 public class Calculator {
     private final List<Operation> operations = new ArrayList<>();
