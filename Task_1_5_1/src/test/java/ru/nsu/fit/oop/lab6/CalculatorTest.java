@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class CalculatorTests {
+class CalculatorTest {
     @ParameterizedTest(name = "[{index}] {0} == {1}")
     @MethodSource("getExpressions")
     void evaluateString(String expression, double result) {
