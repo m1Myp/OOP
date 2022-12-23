@@ -4,10 +4,24 @@ plugins {
     id 'jacoco'
 }
 
-version 'unspecified'
+plugins {
+    `java-library`
+}
 
 repositories {
-     jcenter()
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_12
+}
+
+tasks.withType<JavaCompile> {
+    options.compilerArgs.add("--enable-preview")
+}
+tasks.test {
+    useJUnitPlatform()
+    jvmArgs("--enable-preview")
 }
 
 dependencies {
