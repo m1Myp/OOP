@@ -18,10 +18,10 @@ jobs:
         uses: gradle/gradle-build-action@v2
 
       - name: Set permissions for gradle script
-        run: chmod +x ./gradlew
+        run: chmod +x ./gradlew 
     
       - name: Execute Gradle build
-        run: ./gradlew build
+        run: ./gradlew build --enable-preview
 
       - name: Generate Jacoco report
         run: ./gradlew jacocoTestReport
