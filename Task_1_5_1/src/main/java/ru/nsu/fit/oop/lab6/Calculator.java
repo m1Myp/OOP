@@ -1,11 +1,16 @@
 package ru.nsu.fit.oop.lab6;
 
-import org.apache.commons.math3.complex.Complex;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.nextLine;
+import java.util.List;
+import java.util.Scaner;
+import java.util.Stack;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+import org.apache.commons.math3.complex.Complex;
+
 
 
 record Operation(String regex, int arity, BiFunction<Complex[], String, Complex> evaluate) {
