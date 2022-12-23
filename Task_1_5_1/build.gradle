@@ -9,8 +9,8 @@ repositories {
     jcenter()
 }
 
-sourceCompatibility = JavaVersion.VERSION_18
-targetCompatibility = JavaVersion.VERSION_18
+sourceCompatibility = JavaVersion.VERSION_14
+targetCompatibility = JavaVersion.VERSION_14
 
 compileJava {
     options.compilerArgs += ["--enable-preview"]
