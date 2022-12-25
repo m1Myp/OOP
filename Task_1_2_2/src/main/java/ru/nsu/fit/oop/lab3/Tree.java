@@ -1,347 +1,274 @@
 package ru.nsu.fit.oop.lab3;
 
 import java.util.*;
-
 /**
- * Tree class.
+ * Tree class
+ *
+ * @param <T> type of Tree elements
  */
-public class Tree<T> implements Collection<T> {
-    private int size = 0;
-    private T root;
-    private Map<T, T[]> treeMap;
-    private Tree<T>[] subtree;
-    private int modificationCount;
-    public String searchType;
+public class Tree<T> implements Iterable<T> {
+    private T value;
+    private Tree<T> parent;
+    private final ArrayList<Tree<T>> children;
+    public Search search;
+    private int checkCount;
 
     /**
-     * @return tree size.
+     * Constructor for new Tree element. Search type is set to BFS by default.
      */
-    @Override
-    public int size() {
-        return size;
+    public Tree() {
+        value = null;
+        parent = null;
+        children = new ArrayList<>();
+        search = Search.BFS;
     }
 
     /**
-     * @return true if tree is empty, otherwise false.
+     * Traversal types for iterating over elements.
      */
-    @Override
-    public boolean isEmpty() {
-        return (size == 0);
+    enum Search {
+        BFS,
+        DFS
     }
 
     /**
-     * Checking object o is member of tree
+     * Returns iterator over tree elements with specified traversal type.
      *
-     * @param object is object we need to check
-     *
-     * @return true or false
-     * @throws NullPointerException if you try check NULL object
-     * @throws ClassCastException if object cant cast to T
+     * @throws IllegalStateException if traversal type is not specified
      */
+
     @Override
-    public boolean contains(Object object) {
-        if (object == null) {
+    public Iterator<T> iterator() throws IllegalStateException {
+        if (search == Search.BFS) {
+            return new BreadthFirstSearch(this);
+        } else if (search == Search.DFS) {
+            return new DepthFirstSearch(this);
+        } else {
+            throw new IllegalStateException();
+        }
+    }
+
+    /**
+     * Updates tree checkCount up to the root. Helps to track tree modification.
+     */
+    private void update() {
+        Tree<T> element = this;
+        while (element.parent != null) {
+            element.checkCount++;
+            element = element.parent;
+        }
+        element.checkCount++;
+    }
+
+    /**
+     * Sets value for a tree element.
+     *
+     * @param newValue value to be set
+     * @throws NullPointerException if the value is not specified
+     */
+    public void value(T newValue) throws NullPointerException {
+        if (newValue == null) {
             throw new NullPointerException();
         }
-
-        T member = (T) object;
-
-        return (findNode(member) != null);
+        update();
+        this.value = newValue;
     }
 
     /**
-     * @return new TreeIterator
+     * Returns the value of the element.
      */
-    @Override
-    public Iterator<T> iterator() {
-        return new TreeIterator(searchType);
+    public T getValue() {
+        return value;
     }
 
     /**
-     * Add new member into tree.
+     * Returns the descendants of the tree element.
+     */
+    public ArrayList<Tree<T>> getChildren() {
+        return children;
+    }
+
+    /**
+     * Returns parent of the tree element.
+     */
+    public Tree<T> getParent() {
+        return parent;
+    }
+
+    /**
+     * Adds an element to a tree's descendants.
      *
-     * @param member new tree member
-     * @return true if this collections changed as a result of the call.
-     * @throws NullPointerException if you try add NULL object
+     * @return new Tree element with the specified value
+     * @throws NullPointerException if the value is not specified
      */
-    @SuppressWarnings("unchecked")
-    public boolean add(T member) {
-        if (member == null) {
-            throw new NullPointerException();
+    public Tree<T> add(T newValue) throws NullPointerException {
+        if (newValue == null) {
+            throw new NullPointerException("Cannot add \"null\" element to a tree.");
         }
-
-        T[] treeArr = treeMap.get(root);
-        T[] newTreeArr = (T[]) new Object[treeArr.length + 1];
-        System.arraycopy(treeArr, 0, newTreeArr, 0, treeArr.length);
-        newTreeArr[treeArr.length] = member;
-
-        treeMap.put(root, newTreeArr);
-
-        ++size;
-        ++modificationCount;
-        return true;
+        Tree<T> element = new Tree<>();
+        element.value = newValue;
+        element.parent = this;
+        element.search = this.search;
+        update();
+        children.add(element);
+        return element;
     }
 
     /**
-     * Remove new member into tree.
+     * Adds an element to the specified subtree's descendants.
      *
-     * @param member new tree member
-     * @return true if an element was removed as a result of this call
-     *         false otherwise
-     * @throws NullPointerException if you try remove NULL object
-     * @throws ClassCastException if object cant cast to T
+     * @throws NullPointerException if tree element is not specified
      */
-    @Override
-    public boolean remove(Object member) {
-        if (member == null) {
-            throw new NullPointerException();
+    public Tree<T> add(Tree<T> tree, T newValue) throws NullPointerException {
+        if (tree == null) {
+            throw new NullPointerException("Tree node must be specified.");
         }
-
-        T value = (T) member;
-
-        T node = findNode(value);
-        if (node == null) {
-            return false;
-        }
-
-        if(treeMap.get(value) == null){
-            T parentNode = findParent(value);
-            shiftSubtree(node, parentNode);
-        }
-
-        treeMap.remove(member);
-
-        --size;
-        ++modificationCount;
-        return true;
+        return tree.add(newValue);
     }
 
     /**
-     * Checking of contains collection into our collection
+     * Removes a subtree with given value at the root if such a subtree exists in origin tree.
      *
-     * @param collection collection we want check in ours
-     * @return true if contains
-     *         false otherwise
+     * @param delValue the value of element to be deleted
+     * @return {@code true} if the element was found and deleted
      */
-    @Override
-    public boolean containsAll(Collection<?> collection) {
-        for (var elements : collection) {
-            if(!contains(elements)) {
-                return false;
+    public boolean remove(T delValue) {
+        for (int i = 0; i < this.children.size(); i++) {
+            Tree<T> t = this.children.get(i);
+            if (t.value == delValue) {
+                update();
+                t.removeChildren();
+                this.children.remove(t);
+                return true;
             }
+            t.remove(delValue);
         }
-        return true;
+        return false;
     }
 
-    /**
-     * Add collection into our collection
-     *
-     * @param collection collection we want to add
-     * @return true if we add successfully
-     *         false otherwise
-     */
-    @Override
-    public boolean addAll(Collection<? extends T> collection) {
-        boolean answer = false;
-        for (var elements : collection) {
-            if(add(elements)) {
-                answer = true;
+    private void removeChildren() {
+        for (int i = this.children.size() - 1; i >= 0; i--) {
+            if (!this.children.get(i).children.isEmpty()) {
+                this.children.get(i).removeChildren();
             }
+            this.children.remove(i);
         }
-        return answer;
     }
 
     /**
-     * Remove collection into our collection
-     *
-     * @param collection collection we want to remove
-     * @return true if we remove successfully
-     *         false otherwise
+     * Returns a list of ordered tree elements' values.
      */
-    @Override
-    public boolean removeAll(Collection<?> collection) {
-        boolean answer = false;
-        for (var elements : collection) {
-            if(remove(elements)) {
-                answer = true;
-            }
+    public ArrayList<T> treeList() {
+        T curr;
+        ArrayList<T> list = new ArrayList<>();
+        Iterator<T> iterator = iterator();
+        while (iterator.hasNext()) {
+            curr = iterator.next();
+            list.add(curr);
         }
-        return answer;
+        return list;
     }
 
     /**
-     * Tree clearing.
+     * Breadth First Search iterator for Tree elements.
      */
-    @Override
-    public void clear() {
-        root = null;
-        size = 0;
-        treeMap.clear();
-        modificationCount++;
-    }
-
-    /**
-     * Finding of node with 'value' element on it
-     *
-     * @param value member we want find a node
-     * @return node
-     */
-    private T findParent(T value) {
-        T current = root;
-        boolean flag = false;
-        while(treeMap.get(current) != null) {
-            T[] subtrees = treeMap.get(current);
-            for (int i = 0; i < subtrees.length; ++i){
-                if(subtrees[i] == value) {
-                    flag = true;
-                    break;
-                }
-                else {
-                    current = findNode(subtrees[i]);
-                }
-            }
-            if(flag) {
-                break;
-            }
-        }
-        return current;
-    }
-
-    /**
-     * Finding of node with 'value' element on it
-     *
-     * @param value member we want find a node
-     * @return node
-     */
-    private T findNode(T value) {
-        T current = root;
-        boolean flag = false;
-        while(treeMap.get(current) != null) {
-            T[] subtrees = treeMap.get(current);
-            for (int i = 0; i < subtrees.length; ++i){
-                if(subtrees[i] == value) {
-                    current = subtrees[i];
-                    flag = true;
-                    break;
-                }
-                else {
-                    current = findNode(subtrees[i]);
-                }
-            }
-            if(flag) {
-                break;
-            }
-        }
-        return current;
-    }
-
-    /**
-     * Shift subtree to new position
-     *
-     * @param first node we need to remove
-     * @param second node we need shift to new position
-     *
-     * @throws ClassCastException if object[] cant cast to T[]
-     */
-    private void shiftSubtree(T first, T second) {
-        T[] subtrees = treeMap.get(second);
-        for(int i = 0; i < subtrees.length; ++i){
-            if (subtrees[i] == first){
-                subtrees[i] = treeMap.get(first)[0];
-            }
-        }
-        T[] newSubtree = (T[]) new Object[subtrees.length + treeMap.get(first).length + 1];
-        System.arraycopy(subtrees, 0, newSubtree, 0, subtrees.length);
-        for(int i = 1; i < treeMap.get(first).length; ++i){
-            newSubtree[subtrees.length + i - 1] = treeMap.get(first)[i];
-        }
-        treeMap.put(second, newSubtree);
-    }
-
-    /**
-     * Not supported.
-     *
-     * @throws UnsupportedOperationException optional thing in our task
-     */
-    @Override
-    public Object[] toArray() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Not supported.
-     *
-     * @throws UnsupportedOperationException optional thing in our task
-     */
-    @Override
-    public <T1> T1[] toArray(T1[] a) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Not supported.
-     *
-     * @throws UnsupportedOperationException optional thing
-     */
-    @Override
-    public boolean retainAll(Collection<?> collection) {
-        throw new UnsupportedOperationException();
-    }
-
-
-    /**
-     * Tree iterator class
-     */
-    class TreeIterator implements Iterator<T> {
-        private final int expectedModificationCount = modificationCount;
-        private T next;
+    public class BreadthFirstSearch implements Iterator<T> {
+        private final Tree<T> root;
+        private final Queue<Tree<T>> queue;
+        private final int check;
 
         /**
-         * Tree iterator.
+         * Initiates a queue with a root of a tree.
          */
-        TreeIterator(String flagOfSearch) {
-            next = root;
-            if (next == null) {
-                return;
-            }
-
+        public BreadthFirstSearch(Tree<T> root) {
+            queue = new LinkedList<>();
+            this.root = root;
+            check = root.checkCount;
+            queue.add(this.root);
         }
 
         /**
-         * @throws ConcurrentModificationException if we try to change collection
-         *                                         while iterate it.
-         */
-        private void checkModification() {
-            if (modificationCount != expectedModificationCount) {
-                throw new ConcurrentModificationException();
-            }
-        }
-
-        /**
-         * Check that we did not change collection
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
          *
-         * @return true if iterator find next member in tree.
-         * false otherwise.
+         * @return {@code true} if the iteration has more elements
          */
         @Override
         public boolean hasNext() {
-            checkModification();
-            return (next != null);
+            return (!queue.isEmpty());
         }
 
         /**
-         * Check that we did not change collection and find next element.
+         * Returns the next element in the iteration.
          *
-         * @return next element.
-         * @throws NoSuchElementException if we try use next for no child member
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
          */
         @Override
-        public T next() {
-            checkModification();
-            if (!hasNext()) {
+        public T next() throws NoSuchElementException, ConcurrentModificationException {
+            if (check < root.checkCount) {
+                throw new ConcurrentModificationException();
+            }
+            if (queue.isEmpty()) {
                 throw new NoSuchElementException();
             }
-            return next;
+            Tree<T> next = queue.poll();
+            queue.addAll(next.children);
+            return next.getValue();
+        }
+    }
+
+    /**
+     * Depth First Search iterator for Tree elements.
+     */
+    public class DepthFirstSearch implements Iterator<T> {
+        private final Tree<T> root;
+        private final Stack<Tree<T>> stack;
+        private final int check;
+
+        /**
+         * Initiates a stack with a root of a tree.
+         */
+        public DepthFirstSearch(Tree<T> root) {
+            stack = new Stack<>();
+            this.root = root;
+            check = this.root.checkCount;
+            stack.push(this.root);
+        }
+
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+        @Override
+        public boolean hasNext() {
+            return (!stack.isEmpty());
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public T next() throws NoSuchElementException, ConcurrentModificationException {
+            if (stack.isEmpty()) {
+                throw new NoSuchElementException();
+            }
+            if (check < root.checkCount) {
+                throw new ConcurrentModificationException();
+            }
+            Tree<T> next = stack.pop();
+            int i = next.children.size() - 1;
+            for (; i >= 0; i--) {
+                stack.push(next.children.get(i));
+            }
+            return next.getValue();
         }
     }
 }
