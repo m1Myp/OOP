@@ -3,14 +3,17 @@ package ru.nsu.fit.oop.lab6;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.stream.Stream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import java.util.stream.Stream;
 
-class CalculatorTest {
+/**
+ * Calculator tests class.
+ */
+class CalculatorTests {
     @ParameterizedTest(name = "[{index}] {0} == {1}")
     @MethodSource("getExpressions")
     void evaluateString(String expression, double result) {
@@ -20,19 +23,19 @@ class CalculatorTest {
 
     @Test
     @DisplayName("Test invalid token")
-    void evaluateString_InvalidToken(){
+    void evaluateString_InvalidToken() {
         assertThrows(Calculator.UnknownTokenException.class, ()
                 -> new Calculator().evaluateString("Is It String? Isnt It?"));
     }
 
     @Test
     @DisplayName("Test invalid arity")
-    void evaluateString_InvalidArity(){
+    void evaluateString_InvalidArity() {
         assertThrows(Calculator.InvalidArityException.class, ()
                 -> new Calculator().evaluateString("+ 1"));
     }
 
-    static Stream<Arguments> getExpressions(){
+    static Stream<Arguments> getExpressions() {
         return Stream.of(
                 Arguments.of("+ 1 1", 2d),
                 Arguments.of("* + 2 3 5", 25d),
@@ -46,5 +49,4 @@ class CalculatorTest {
                 Arguments.of("sin / PI 2", 1d)
         );
     }
-
 }
