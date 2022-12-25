@@ -47,7 +47,10 @@ public class Calculator {
         valueParsers.add(new ValueParser("-e", (s) -> new Complex(-Math.E)));
     }
 
-    public static void main(String[] args) {
+    /**
+     * Main function of calculator.
+     */
+    public static void main() {
         Calculator calc = new Calculator();
         Scanner sc = new Scanner(System.in);
         while (true) {
