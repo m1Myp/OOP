@@ -1,8 +1,15 @@
 package ru.nsu.fit.oop.lab3;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.NoSuchElementException;
+import java.util.Queue;
+import java.util.Stack;
+
 /**
- * Tree class
+ * Tree class.
  *
  * @param <T> type of Tree elements
  */
