@@ -25,6 +25,9 @@ public class Calculator {
 
     static class InvalidArityException extends RuntimeException{}
 
+    /**
+     * All operations and value we needed.
+     */
     public Calculator() {
         operations.add(new Operation("\\+", 2, (values) -> values[0].add(values[1])));
         operations.add(new Operation("-", 2, (values) -> values[0].subtract(values[1])));
@@ -72,7 +75,7 @@ public class Calculator {
      */
     public Complex evaluateString(String str) {
         Stack<Complex> stack = new Stack<>();
-        Object[] SomeTokens = Arrays.stream(str.split("\\s+")).map((s) -> {
+        Object[] sometokens = Arrays.stream(str.split("\\s+")).map((s) -> {
             for (Operation op : operations) {
                 OperationFactory of = new OperationFactory();
                 Token t = of.getOp(op, s);
@@ -89,7 +92,7 @@ public class Calculator {
             }
             throw new UnknownTokenException("Unknown token: " + s, s);
         }).toArray();
-        Token[] tokens = Arrays.copyOf(SomeTokens, SomeTokens.length, Token[].class);
+        Token[] tokens = Arrays.copyOf(sometokens, sometokens.length, Token[].class);
 
 
         for (int i = tokens.length - 1; i >= 0; i--) {
