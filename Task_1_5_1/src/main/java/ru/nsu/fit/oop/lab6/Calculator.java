@@ -1,16 +1,23 @@
 package ru.nsu.fit.oop.lab6;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Stack;
 import org.apache.commons.math3.complex.Complex;
 
-import java.util.*;
-
+/**
+ * Calculator class.
+ */
 public class Calculator {
     private final List<Operation> operations = new ArrayList<>();
     private final List<ValueParser> valueParsers = new ArrayList<>();
 
-    static class UnknownTokenException extends RuntimeException{
+    static class UnknownTokenException extends RuntimeException {
         public final String tokenText;
-        UnknownTokenException(String message, String tokenText){
+
+        UnknownTokenException(String message, String tokenText) {
             super(message);
             this.tokenText = tokenText;
         }
@@ -18,7 +25,7 @@ public class Calculator {
 
     static class InvalidArityException extends RuntimeException{}
 
-    Calculator() {
+    public Calculator() {
         operations.add(new Operation("\\+", 2, (values) -> values[0].add(values[1])));
         operations.add(new Operation("-", 2, (values) -> values[0].subtract(values[1])));
         operations.add(new Operation("\\*", 2, (values) -> values[0].multiply(values[1])));
@@ -29,7 +36,8 @@ public class Calculator {
         operations.add(new Operation("pow", 2, (values) -> values[0].pow(values[1])));
         operations.add(new Operation("sqrt", 1, (values) -> values[0].sqrt()));
 
-        valueParsers.add(new ValueParser("-?\\d+(\\.\\d+)?", (s) -> new Complex(Double.parseDouble(s))));
+        valueParsers.add(new ValueParser("-?\\d+(\\.\\d+)?", (s)
+                -> new Complex(Double.parseDouble(s))));
         valueParsers.add(new ValueParser("PI", (s) -> new Complex(Math.PI)));
         valueParsers.add(new ValueParser("e", (s) -> new Complex(Math.E)));
         valueParsers.add(new ValueParser("-PI", (s) -> new Complex(-Math.PI)));
@@ -42,45 +50,55 @@ public class Calculator {
         while (true) {
             System.out.print('>');
             String str = sc.nextLine();
-            if (str.equals(".quit")) break;
+            if (str.equals(".quit")) {
+                break;
+            }
             try {
                 Complex res = calc.evaluateString(str);
                 System.out.println(res.getReal());
             } catch (UnknownTokenException e) {
                 System.out.println("ERROR: " + e.getMessage());
-            }catch (InvalidArityException e){
+            } catch (InvalidArityException e) {
                 System.out.println("Invalid number of arguments");
             }
         }
     }
 
+    /**
+     * Take string, split, find token, use token to find answer.
+     *
+     * @param str string we need to evaluate
+     * @return answer of calculation
+     */
     public Complex evaluateString(String str) {
         Stack<Complex> stack = new Stack<>();
-        Object[] wtf = Arrays.stream(str.split("\\s+")).map((s) -> {
-            for (var op : operations) {
+        Object[] SomeTokens = Arrays.stream(str.split("\\s+")).map((s) -> {
+            for (Operation op : operations) {
                 OperationFactory of = new OperationFactory();
                 Token t = of.getOp(op, s);
-                if(t.isOperation()) {
+                if (t.isOperation()) {
                     return t;
                 }
             }
-            for (var vp : valueParsers) {
+            for (ValueParser vp : valueParsers) {
                 ValueFactory of = new ValueFactory();
                 Token t = of.getValue(vp, s);
-                if(t.isValue()) {
+                if (t.isValue()) {
                     return t;
                 }
             }
             throw new UnknownTokenException("Unknown token: " + s, s);
         }).toArray();
-        Token[] tokens = Arrays.copyOf(wtf, wtf.length, Token[].class);
+        Token[] tokens = Arrays.copyOf(SomeTokens, SomeTokens.length, Token[].class);
 
 
         for (int i = tokens.length - 1; i >= 0; i--) {
             Token token = tokens[i];
             if (token.isOperation()) {
                 Operation op = token.op();
-                if (stack.size() < op.arity()) throw new InvalidArityException();
+                if (stack.size() < op.arity()) {
+                    throw new InvalidArityException();
+                }
                 Complex[] args = new Complex[op.arity()];
                 for (int j = 0; j < op.arity(); j++) {
                     args[j] = stack.pop();
@@ -91,8 +109,9 @@ public class Calculator {
             }
         }
 
-        if (stack.size() != 1) throw new InvalidArityException();
+        if (stack.size() != 1) {
+            throw new InvalidArityException();
+        }
         return stack.pop();
     }
-
 }
