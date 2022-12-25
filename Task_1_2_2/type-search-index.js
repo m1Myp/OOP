@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"ru.nsu.fit.oop.lab3","l":"Tree.BreadthFirstSearch"},{"p":"ru.nsu.fit.oop.lab3","l":"Tree.DepthFirstSearch"},{"p":"ru.nsu.fit.oop.lab3","l":"Tree"}]
