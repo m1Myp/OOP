@@ -52,8 +52,8 @@ public class MainFactory {
                 }
             }
             for (ValueParser vp : valueParsers) {
-                ValueFactory of = new ValueFactory();
-                Token t = of.getValue(vp, s);
+                ValueFactory vf = new ValueFactory();
+                Token t = vf.getValue(vp, s);
                 if (t.isValue()) {
                     return t;
                 }
