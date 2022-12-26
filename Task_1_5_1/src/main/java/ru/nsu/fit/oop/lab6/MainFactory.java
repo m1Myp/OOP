@@ -1,10 +1,9 @@
 package ru.nsu.fit.oop.lab6;
 
-import org.apache.commons.math3.complex.Complex;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.apache.commons.math3.complex.Complex;
 
 /**
  * Main factory class.
@@ -42,7 +41,7 @@ public class MainFactory {
      * @param str string we need change to tokens.
      * @return tokens we get.
      */
-    public Token[] createtoken(String str){
+    public Token[] createtoken(String str) {
         Object[] sometokens = Arrays.stream(str.split("\\s+")).map((s) -> {
             for (Operation op : operations) {
                 OperationFactory of = new OperationFactory();
