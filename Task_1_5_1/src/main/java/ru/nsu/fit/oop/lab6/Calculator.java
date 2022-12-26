@@ -11,8 +11,6 @@ import org.apache.commons.math3.complex.Complex;
  * Calculator class.
  */
 public class Calculator {
-    private final List<Operation> operations = new ArrayList<>();
-    private final List<ValueParser> valueParsers = new ArrayList<>();
 
     static class UnknownTokenException extends RuntimeException {
         public final String tokenText;
@@ -24,28 +22,6 @@ public class Calculator {
     }
 
     static class InvalidArityException extends RuntimeException{}
-
-    /**
-     * All operations and value we needed.
-     */
-    public Calculator() {
-        operations.add(new Operation("\\+", 2, (values) -> values[0].add(values[1])));
-        operations.add(new Operation("-", 2, (values) -> values[0].subtract(values[1])));
-        operations.add(new Operation("\\*", 2, (values) -> values[0].multiply(values[1])));
-        operations.add(new Operation("/", 2, (values) -> values[0].divide(values[1])));
-        operations.add(new Operation("cos", 1, (values) -> values[0].cos()));
-        operations.add(new Operation("sin", 1, (values) -> values[0].sin()));
-        operations.add(new Operation("log", 1, (values) -> values[0].log()));
-        operations.add(new Operation("pow", 2, (values) -> values[0].pow(values[1])));
-        operations.add(new Operation("sqrt", 1, (values) -> values[0].sqrt()));
-
-        valueParsers.add(new ValueParser("-?\\d+(\\.\\d+)?", (s)
-                -> new Complex(Double.parseDouble(s))));
-        valueParsers.add(new ValueParser("PI", (s) -> new Complex(Math.PI)));
-        valueParsers.add(new ValueParser("e", (s) -> new Complex(Math.E)));
-        valueParsers.add(new ValueParser("-PI", (s) -> new Complex(-Math.PI)));
-        valueParsers.add(new ValueParser("-e", (s) -> new Complex(-Math.E)));
-    }
 
     /**
      * Main function of calculator.
@@ -78,26 +54,8 @@ public class Calculator {
      */
     public Complex evaluateString(String str) {
         Stack<Complex> stack = new Stack<>();
-        Object[] sometokens = Arrays.stream(str.split("\\s+")).map((s) -> {
-            for (Operation op : operations) {
-                OperationFactory of = new OperationFactory();
-                Token t = of.getOp(op, s);
-                if (t.isOperation()) {
-                    return t;
-                }
-            }
-            for (ValueParser vp : valueParsers) {
-                ValueFactory of = new ValueFactory();
-                Token t = of.getValue(vp, s);
-                if (t.isValue()) {
-                    return t;
-                }
-            }
-            throw new UnknownTokenException("Unknown token: " + s, s);
-        }).toArray();
-        Token[] tokens = Arrays.copyOf(sometokens, sometokens.length, Token[].class);
-
-
+        MainFactory mf = new MainFactory();
+        Token[] tokens = mf.createtoken(str);
         for (int i = tokens.length - 1; i >= 0; i--) {
             Token token = tokens[i];
             if (token.isOperation()) {
