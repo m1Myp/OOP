@@ -1,0 +1,9 @@
+Benchmark                                 (streams)  Mode  Cnt     Score    Error  Units
+BenchmarkTest.testParallelStreamChecker         N/A  avgt   25   351,478 ±  3,136  ms/op
+BenchmarkTest.testSequentialChecker             N/A  avgt   25  1984,581 ±  2,842  ms/op
+ThreadsBenchmarkTest.testParallelChecker          1  avgt   25  1983,711 ±  2,027  ms/op
+ThreadsBenchmarkTest.testParallelChecker          2  avgt   25  1329,986 ±  5,559  ms/op
+ThreadsBenchmarkTest.testParallelChecker          3  avgt   25   982,964 ± 23,436  ms/op
+ThreadsBenchmarkTest.testParallelChecker          4  avgt   25   866,932 ± 30,729  ms/op
+ThreadsBenchmarkTest.testParallelChecker          5  avgt   25   702,988 ± 19,686  ms/op
+ThreadsBenchmarkTest.testParallelChecker          6  avgt   25   616,149 ± 15,689  ms/op
