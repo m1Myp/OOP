@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"io.github.oop","l":"NonPrimeNumbersCheck"},{"p":"io.github.oop","l":"ParallelNonPrimeCheck"},{"p":"io.github.oop","l":"ParallelStreamNonPrimeCheck"},{"p":"io.github.oop","l":"PrimeNumberCheck"},{"p":"io.github.oop","l":"SequentialNonPrimeCheck"}]
