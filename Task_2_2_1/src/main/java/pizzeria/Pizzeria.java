@@ -14,10 +14,10 @@ public class Pizzeria implements Runnable{
     record Parameters(int queueSize, int storageSize, List<Integer> bakers, List<Integer[]> couriers) {
     }
 
-    final SynchronizedQueue queue;
-    final SynchronizedQueue storage;
-    final Parameters parameters;
-    final int timeConstant = 10000;
+    private final SynchronizedQueue queue;
+    static final SynchronizedQueue storage;
+    static final Parameters parameters;
+    static final int timeConstant = 10000;
     private int orderNumber;
     private AtomicInteger completeOrders;
     private AtomicBoolean open;
