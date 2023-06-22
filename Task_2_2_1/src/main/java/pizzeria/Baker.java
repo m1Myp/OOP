@@ -1,10 +1,10 @@
 package pizzeria;
 
 class Baker implements Runnable {
-    final private SynchronizedQueue queue;
-    final private SynchronizedQueue storage;
-    final private int bakingTime;
-    boolean free;
+    private final SynchronizedQueue queue;
+    private final SynchronizedQueue storage;
+    private final int bakingTime;
+    private final boolean free;
 
     Baker(Pizzeria pizzeria, int experience) {
         this.queue = pizzeria.queue;
