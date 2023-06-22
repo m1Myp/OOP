@@ -24,9 +24,6 @@ class SynchronizedQueue {
     }
 
     synchronized boolean canRemove() throws InterruptedException {
-        if (orders.isEmpty()) {
-            wait(1000);
-        }
         return !orders.isEmpty();
     }
 
