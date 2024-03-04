@@ -1,0 +1,7 @@
+{
+  "queue": 10,
+  "storage": 20,
+  "bakers": [1, 2, 3],
+  "couriers trunk sizes": [4, 6, 8],
+  "couriers speed": [5, 7, 9]
+}
